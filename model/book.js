@@ -24,8 +24,12 @@ const BookSchema = new Schema({
     type: String,
     required: true,
     validate: value => validator.isURL(value)
+  },
+  googleId: {
+    type: String,
+    required: true,
+    unique: true
   }
 });
 
-const Book = mongoose.model('Book', BookSchema);
-module.exports = Book;
+module.exports = mongoose.model('Book', BookSchema);

@@ -1,8 +1,7 @@
 const expect = require('chai').expect;
 const Book = require('../model/book');
 
-//TODO: Replicate for other inputs
-describe('Book', function() {
+describe('Book Model and Schema', function() {
   it('should be invalid without a title', function(done) {
     const tome = new Book();
     tome.validate(function(err) {
@@ -11,7 +10,6 @@ describe('Book', function() {
     });
   });
 
-  //TODO: Repeat for Image
   it("should return a validation error if the link isn't a URL", function(done) {
     //Invalid URL
     const tome = new Book({ link: 'google' });
