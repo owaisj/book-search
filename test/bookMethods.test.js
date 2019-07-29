@@ -11,19 +11,21 @@ const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
 
-// Get one book (later)
-
-// Update book
-
-// Delete book
-
 chai.use(chaiHttp);
 describe('Database access with controllers and routing', function() {
   // Set-up Test Database
   before(function(done) {
-    mongoose.connect('mongodb://localhost/bookSearchTestDb', {
-      useNewUrlParser: true
-    });
+    mongoose.connect(
+      'mongodb://localhost/bookSearchTestDb',
+      {
+        useNewUrlParser: true,
+        useCreateIndex: true
+      },
+      // Drop test db if it exists
+      function() {
+        mongoose.connection.db.dropDatabase();
+      }
+    );
     const db = mongoose.connection;
     db.on('error', function(err) {
       if (err) {
@@ -49,15 +51,51 @@ describe('Database access with controllers and routing', function() {
         .end(function(err, res) {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.be.eql(0); // Empty library
+          res.body.length.should.be.eql(0);
         });
       done();
     });
   });
 
+  // Add valid books to the db
   describe('/POST Book Route', function() {
-    it('should return an error with a missing field');
-    it('should add a book with all required fields');
+    // it('should return an error with a missing field');
+    it('should add a book with all required fields', function(done) {
+      const validTome = {
+        title: 'Arcthunder',
+        authors: ['Robin'],
+        description: 'Intermediate level tome',
+        image: 'https://google.com',
+        link: 'https://google.com',
+        googleId: '0'
+      };
+
+      chai
+        .request(server)
+        .post('/api/books')
+        .send(validTome)
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+        });
+      done();
+    });
+
+    it('should return an error if a field is missing', function(done) {
+      const invalidTome = {
+        title: 'Arcthunder',
+        authors: ['Robin'],
+        description: 'Intermediate level tome'
+      };
+      chai
+        .request(server)
+        .post('/api/books')
+        .send(invalidTome)
+        .end(function(err, res) {
+          res.should.have.status(422);
+        });
+      done();
+    });
   });
 
   // Teardown test database
@@ -68,9 +106,9 @@ describe('Database access with controllers and routing', function() {
       function() {
         mongoose.connection.db.dropDatabase(function() {
           mongoose.connection.close();
+          done();
         });
       }
     );
-    done();
   });
 });

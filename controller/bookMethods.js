@@ -20,7 +20,11 @@ router
       .then(dbBook => res.json(dbBook))
       .catch(err => res.status(422).json(err));
   })
-  .post();
+  .post(function(req, res) {
+    Book.create(req.body)
+      .then(dbBook => res.json(dbBook))
+      .catch(err => res.status(422).json(err));
+  });
 
 // Specific Book
 router
