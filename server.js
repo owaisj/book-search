@@ -18,7 +18,13 @@ const MONGODB_URI =
   process.env.MONGODB_URI || 'mongodb://localhost/bookSearchDb';
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
-app.listen(PORT, () => console.log(`Server running: http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  if (process.env.NODE_ENV === 'test') {
+    console.log(`Test Server Initialized on port ${PORT}`);
+  } else {
+    console.log(`Server running: http://localhost:${PORT}`);
+  }
+});
 
 // Export app for testing
 module.exports = app;

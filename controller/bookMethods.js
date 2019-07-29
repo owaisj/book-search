@@ -2,6 +2,8 @@ const Book = require('../model/book');
 const router = require('express').Router();
 
 /*
+  TODO: Add res.message to routes
+
   Create/POST - create
   Read/GET - find, findById
   UPDATE - findOneAndUpdate
@@ -29,8 +31,21 @@ router
 // Specific Book
 router
   .route('/:id')
-  .get()
-  .put()
-  .delete();
+  .get(function(req, res) {
+    Book.findById(req.params.id)
+      .then(dbBook => res.json(dbBook))
+      .catch(err => res.status(422).json(err));
+  })
+  .put(function(req, res) {
+    Book.findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then(dbBook => res.json({ message: 'Book updated!' }, dbBook))
+      .catch(err => res.status(422).json(err));
+  })
+  .delete(function(req, res) {
+    Book.findById(req.params.id)
+      .then(dbBook => dbBook.remove())
+      .then(dbBook => res.json({ message: 'Book deleted!' }, dbBook))
+      .catch(err => res.status(422).json(err));
+  });
 
 module.exports = router;
