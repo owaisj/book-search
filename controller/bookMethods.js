@@ -37,14 +37,14 @@ router
       .catch(err => res.status(422).json(err));
   })
   .put(function(req, res) {
-    Book.findOneAndUpdate({ _id: req.params.id }, req.body)
-      .then(dbBook => res.json({ message: 'Book updated!' }, dbBook))
+    Book.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+      .then(dbBook => res.json(dbBook))
       .catch(err => res.status(422).json(err));
   })
   .delete(function(req, res) {
     Book.findById(req.params.id)
       .then(dbBook => dbBook.remove())
-      .then(dbBook => res.json({ message: 'Book deleted!' }, dbBook))
+      .then(dbBook => res.json({ message: 'Book deleted!', dbBook }))
       .catch(err => res.status(422).json(err));
   });
 

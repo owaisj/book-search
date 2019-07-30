@@ -35,7 +35,8 @@ describe('Database access with controllers and routing', function() {
       'mongodb://localhost/bookSearchTestDb',
       {
         useNewUrlParser: true,
-        useCreateIndex: true
+        useCreateIndex: true,
+        useFindAndModify: false
       },
       // Drop test db if it exists
       function() {
@@ -53,7 +54,6 @@ describe('Database access with controllers and routing', function() {
       }
     });
     db.once('open', function() {
-      console.log('Connection to test database established.');
       done();
     });
   });
@@ -117,9 +117,41 @@ describe('Database access with controllers and routing', function() {
     });
   });
 
-  // describe('/PUT Book Route');
+  describe('/PUT Book Route', function() {
+    it('should edit a book', function(done) {
+      Book.create(validTome, function(err, book) {
+        chai
+          .request(server)
+          .put(`/api/books/${book._id}`)
+          .send({
+            title: 'Arcfire',
+            description: 'An intermediate fire tome.'
+          })
+          .end(function(err, res) {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            res.body.should.have.property('title').eql('Arcfire');
+          });
+        done();
+      });
+    });
+  });
 
-  // describe('/DELETE Book Route');
+  describe('/DELETE Book Route', function() {
+    it('should delete a book', function(done) {
+      Book.create(validTome, function(err, book) {
+        chai
+          .request(server)
+          .delete(`/api/books/${book._id}`)
+          .end(function(err, res) {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            res.body.should.have.property('message').eql('Book deleted!');
+            done();
+          });
+      });
+    });
+  });
 
   // Teardown test database
   after(function(done) {
