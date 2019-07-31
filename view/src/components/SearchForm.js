@@ -13,7 +13,6 @@ export default class SearchForm extends Component {
   };
   handleSubmit = event => {
     event.preventDefault();
-    alert(this.state.value);
     this.props.search(this.state.value);
   };
   clearForm = event => {
@@ -33,15 +32,21 @@ export default class SearchForm extends Component {
           />
         </div>
         <div className="field is-grouped">
-          <div className="control">
-            <button
-              type="submit"
-              className="button"
-              onClick={this.handleSubmit}
-            >
-              Submit
-            </button>
-            <button className="button">Clear!</button>
+          <div className="control columns is-centered">
+            <div className="column">
+              <button
+                type="submit"
+                className="button"
+                onClick={this.handleSubmit}
+              >
+                Submit
+              </button>
+            </div>
+            <div className="column">
+              <button className="button" disabled>
+                Clear!
+              </button>
+            </div>
           </div>
         </div>
       </form>

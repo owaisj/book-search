@@ -28,7 +28,7 @@ export default class Main extends Component {
       );
       const data = await response.json();
       this.setState({ data: data.items, isSearched: true });
-      console.log(this.state);
+      // console.log(this.state);
     }
   }
 
@@ -45,16 +45,36 @@ export default class Main extends Component {
         <div className="container">
           <h1 className="title">Main Page</h1>
           <h2 className="subtitle">Welcome home.</h2>
-          <SearchForm search={this.grabValue} />
+          <div className="columns">
+            <div className="column is-one-third">
+              <p>Search for books and save them to your reading list.</p>
+            </div>
+            <div className="column is-one-third">
+              <SearchForm search={this.grabValue} />
+            </div>
+          </div>
           {!this.state.isSearched ? (
             <p>Loading</p>
           ) : (
-            <div className="tile is-ancestor">
-              <div className="tile is-parent">
-                {[1, 2, 3].map((book, i) => (
-                  <BookTile key={i} />
-                ))}
-              </div>
+            <div className="columns is-multiline">
+              {this.state.data.map((book, i) => {
+                console.log(book.volumeInfo);
+                const current = book.volumeInfo;
+                return (
+                  <BookTile
+                    title={current.title}
+                    authors={current.authors.join(', ')}
+                    gLink={current.previewLink}
+                    image={
+                      book.volumeInfo.imageLinks
+                        ? book.volumeInfo.imageLinks.thumbnail
+                        : 'https://www.fillmurray.com/460/300'
+                    }
+                    description={current.description}
+                    key={i}
+                  />
+                );
+              })}
             </div>
           )}
         </div>

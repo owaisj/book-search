@@ -5,8 +5,8 @@ export default function Header() {
     <section className="hero is-info">
       <div className="hero-body">
         <div className="container">
-          <h1 className="title">Book Search</h1>
-          <h2 className="subtitle">Save and Search for books with Google.</h2>
+          <h1 className="title">Reading List</h1>
+          <h2 className="subtitle">Tagline</h2>
         </div>
       </div>
     </section>
