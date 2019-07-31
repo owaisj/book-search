@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="content">
         Created by Owais Jamil. View code{' '}
-        <a href="https://github.com/owaisj">here</a>.
+        <a href="https://github.com/owaisj/book-search">here</a>.
       </div>
     </footer>
   );
