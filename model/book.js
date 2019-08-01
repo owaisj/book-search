@@ -24,11 +24,6 @@ const BookSchema = new Schema({
     type: String,
     required: true,
     validate: value => validator.isURL(value)
-  },
-  googleId: {
-    type: String,
-    required: true,
-    unique: true
   }
 });
 

@@ -2,10 +2,26 @@
 
 A full-stack web application to view books from Google Books.
 
+## Usage
+
+```
+git clone
+cd book-search
+npm install
+npm start
+```
+
+Ensure that the mongo daemon is running when your server starts.
+
 ## Technologies
 
 The back-end is a REST API with data using MongoDb with Mongoose and Node.js with Express.  
 The routes and schema are tested with the Mocha test runner and Chai assertion library.
+
+## Front-End
+
+This application is a single-page application with client-side routing.  
+In order to handle data and API requests, lifecycle methods are used in class based components and hooks in functional components.
 
 ## Database
 

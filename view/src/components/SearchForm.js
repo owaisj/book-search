@@ -8,7 +8,6 @@ export default class SearchForm extends Component {
     };
   }
   handleInputChange = event => {
-    console.log(event.target.value);
     this.setState({ value: event.target.value });
   };
   handleSubmit = event => {
@@ -17,6 +16,7 @@ export default class SearchForm extends Component {
   };
   clearForm = event => {
     event.preventDefault();
+    this.setState({ value: '' });
   };
   render() {
     return (
@@ -32,8 +32,8 @@ export default class SearchForm extends Component {
           />
         </div>
         <div className="field is-grouped">
-          <div className="control columns is-centered">
-            <div className="column">
+          <div className="control columns is-centered is-mobile">
+            <div className="column is-half-mobile">
               <button
                 type="submit"
                 className="button"
@@ -42,8 +42,8 @@ export default class SearchForm extends Component {
                 Submit
               </button>
             </div>
-            <div className="column">
-              <button className="button" disabled>
+            <div className="column is-half-mobile">
+              <button className="button" onClick={this.clearForm}>
                 Clear!
               </button>
             </div>

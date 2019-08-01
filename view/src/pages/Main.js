@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import BookTile from '../components/BookTile';
 import SearchForm from '../components/SearchForm';
 
@@ -17,8 +18,18 @@ export default class Main extends Component {
       `https://www.googleapis.com/books/v1/volumes?q=${this.state.query}`
     );
     const data = await response.json();
-    this.setState({ data: data.items, isSearched: true });
-    console.log(this.state);
+    this.setState({
+      data: data.items.filter(
+        item =>
+          item.volumeInfo.title &&
+          item.volumeInfo.infoLink &&
+          item.volumeInfo.authors &&
+          item.volumeInfo.description &&
+          item.volumeInfo.imageLinks &&
+          item.volumeInfo.imageLinks.thumbnail
+      ),
+      isSearched: true
+    });
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -27,8 +38,18 @@ export default class Main extends Component {
         `https://www.googleapis.com/books/v1/volumes?q=${this.state.query}`
       );
       const data = await response.json();
-      this.setState({ data: data.items, isSearched: true });
-      // console.log(this.state);
+      this.setState({
+        data: data.items.filter(
+          item =>
+            item.volumeInfo.title &&
+            item.volumeInfo.infoLink &&
+            item.volumeInfo.authors &&
+            item.volumeInfo.description &&
+            item.volumeInfo.imageLinks &&
+            item.volumeInfo.imageLinks.thumbnail
+        ),
+        isSearched: true
+      });
     }
   }
 
@@ -46,10 +67,11 @@ export default class Main extends Component {
           <h1 className="title">Main Page</h1>
           <h2 className="subtitle">Welcome home.</h2>
           <div className="columns">
-            <div className="column is-one-third">
+            <div className="column is-half-tablet is-one-third-desktop is-full-mobile">
               <p>Search for books and save them to your reading list.</p>
+              <Link to="/saved">View Saved Books</Link>
             </div>
-            <div className="column is-one-third">
+            <div className="column is-half-tablet is-one-third-desktop is-full-mobile">
               <SearchForm search={this.grabValue} />
             </div>
           </div>
@@ -58,19 +80,15 @@ export default class Main extends Component {
           ) : (
             <div className="columns is-multiline">
               {this.state.data.map((book, i) => {
-                console.log(book.volumeInfo);
                 const current = book.volumeInfo;
                 return (
                   <BookTile
                     title={current.title}
                     authors={current.authors.join(', ')}
                     gLink={current.previewLink}
-                    image={
-                      book.volumeInfo.imageLinks
-                        ? book.volumeInfo.imageLinks.thumbnail
-                        : 'https://www.fillmurray.com/460/300'
-                    }
+                    image={current.imageLinks.thumbnail}
                     description={current.description}
+                    page={'Main'}
                     key={i}
                   />
                 );

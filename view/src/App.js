@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Main from './pages/Main';
+import Saved from './pages/Saved';
 import Err from './pages/Err';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Header />
         <Switch>
           <Route exact path="/" component={Main} />
+          <Route exact path="/saved" component={Saved} />
           <Route component={Err} />
         </Switch>
         <Footer />
