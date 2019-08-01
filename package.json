@@ -5,7 +5,15 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha test --exit",
-    "watch": "nodemon server"
+    "test:client": "cd view && npm test",
+    "watch": "nodemon server",
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "node server.js",
+    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd view && npm run start",
+    "install": "cd view && npm install",
+    "build": "cd view && npm run build",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -18,9 +26,14 @@
   },
   "homepage": "https://github.com/owaisj/book-search#readme",
   "dependencies": {
+    "bulma": "^0.7.5",
     "express": "^4.17.1",
+    "font-awesome": "^4.7.0",
+    "if-env": "^1.0.4",
     "mongoose": "^5.6.5",
     "morgan": "^1.9.1",
+    "node-sass": "^4.12.0",
+    "react-router-dom": "^5.0.1",
     "validator": "^11.1.0"
   },
   "devDependencies": {

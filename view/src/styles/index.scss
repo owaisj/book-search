@@ -1,0 +1,16 @@
+// Import Bulma and Font Awesome
+@import '~../../../node_modules/bulma/bulma.sass';
+@import '../../../~font-awesome/css/font-awesome.css';
+// Sticky Footer
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.section {
+  flex-grow: 1;
+}
+.book-description {
+  max-height: 200px;
+  overflow: auto;
+}
