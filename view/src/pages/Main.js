@@ -8,29 +8,29 @@ export default class Main extends Component {
     super(props);
     this.state = {
       isSearched: false,
-      query: 'Ready Player One',
+      query: '',
       data: []
     };
   }
 
-  async componentDidMount() {
-    const response = await fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=${this.state.query}`
-    );
-    const data = await response.json();
-    this.setState({
-      data: data.items.filter(
-        item =>
-          item.volumeInfo.title &&
-          item.volumeInfo.infoLink &&
-          item.volumeInfo.authors &&
-          item.volumeInfo.description &&
-          item.volumeInfo.imageLinks &&
-          item.volumeInfo.imageLinks.thumbnail
-      ),
-      isSearched: true
-    });
-  }
+  // async componentDidMount() {
+  //   const response = await fetch(
+  //     `https://www.googleapis.com/books/v1/volumes?q=${this.state.query}`
+  //   );
+  //   const data = await response.json();
+  //   this.setState({
+  //     data: data.items.filter(
+  //       item =>
+  //         item.volumeInfo.title &&
+  //         item.volumeInfo.infoLink &&
+  //         item.volumeInfo.authors &&
+  //         item.volumeInfo.description &&
+  //         item.volumeInfo.imageLinks &&
+  //         item.volumeInfo.imageLinks.thumbnail
+  //     ),
+  //     isSearched: true
+  //   });
+  // }
 
   async componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query) {
@@ -76,7 +76,7 @@ export default class Main extends Component {
             </div>
           </div>
           {!this.state.isSearched ? (
-            <p>Loading</p>
+            ''
           ) : (
             <div className="columns is-multiline">
               {this.state.data.map((book, i) => {

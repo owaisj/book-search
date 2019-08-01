@@ -9,6 +9,8 @@ export default function BookTile(props) {
     image: props.image,
     link: props.gLink
   };
+
+  // Used in BookTile rendered in Main page
   const saveToDb = () => {
     return fetch('/api/books', {
       method: 'POST',
@@ -18,6 +20,8 @@ export default function BookTile(props) {
       }
     }).then(response => response.json());
   };
+
+  // BookTile rendered on Saved
   const deleteFromDb = id => {
     console.log('Delete! ' + id);
     return fetch(`/api/books/${id}`, {
@@ -58,7 +62,7 @@ export default function BookTile(props) {
               className="button is-danger"
               onClick={() => deleteFromDb(props.dbID)}
             >
-              Delete
+              <i className="fa fa-trash" />
             </button>
           )}
         </p>
